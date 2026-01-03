@@ -1,0 +1,27 @@
+{
+  "languages": {
+    "Python": {
+      "indent_guides": {
+        "background_coloring": "indent_aware"
+      },
+      "language_servers": [
+        "ty",
+        "!basedpyright",
+        "..."
+      ]
+    }
+  },
+  "terminal": {
+    "detect_venv": {
+      "on": {
+        "directories": [
+          ".env",
+          "env",
+          ".venv",
+          "venv"
+        ],
+        "activate_script": "pyenv"
+      }
+    }
+  }
+}
