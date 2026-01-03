@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "Calculator": {
+      "httpUrl": "http://0.0.0.0:12003/mcp",
+      "headers": {
+        "Accept": "application/json, text/event-stream"
+      }
+    },
+    "Compounding_Engineering(ce)": {
+      "httpUrl": "http://0.0.0.0:12001/mcp",
+      "headers": {
+        "Accept": "application/json, text/event-stream"
+      }
+    }
+  },
+  "$version": 2
+}
