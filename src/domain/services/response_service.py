@@ -2,7 +2,7 @@
 
 import json
 import asyncio
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, Optional
 from fastapi import Response
 from src.domain.entities.mock_definition import MockDefinition
 from src.domain.entities.request_context import RequestContext
@@ -10,6 +10,10 @@ from src.domain.entities.request_context import RequestContext
 
 class ResponseService:
     """Service to generate responses from mock definitions."""
+
+    def __init__(self, template_service: Optional[Any] = None):
+        """Initialize response service with optional template service."""
+        self.template_service = template_service
 
     @staticmethod
     def _prepare_body(
@@ -43,15 +47,21 @@ class ResponseService:
         if response_config.response_delay_ms > 0:
             await asyncio.sleep(response_config.response_delay_ms / 1000.0)
 
-        # Prepare body
-        body = self._prepare_body(response_config.response_body)
+        # Prepare body (with template rendering if needed)
+        body_str = self._prepare_body(response_config.response_body)
+
+        # Check if body is a template and render it
+        if self.template_service and response_config.is_template:
+            body_str = await self.template_service.render_template(
+                body_str, request_context
+            )
 
         # Prepare headers
         headers = self._prepare_headers(response_config.response_headers.copy())
 
         # Create and return FastAPI Response
         return Response(
-            content=body,
+            content=body_str,
             status_code=response_config.response_status,
             headers=headers,
             media_type=headers.get("Content-Type", "application/json"),

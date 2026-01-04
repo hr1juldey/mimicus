@@ -5,13 +5,15 @@ from src.core.config import get_settings, Settings
 from src.domain.repositories.mock_repository import MockRepository, InMemoryMockRepository
 from src.domain.services.matching_service import MatchingService
 from src.domain.services.response_service import ResponseService
+from src.domain.services.template_service import TemplateService
 from src.infrastructure.database.connection import get_database
 
 
 # Global singleton instances
 _mock_repository: MockRepository = InMemoryMockRepository()
 _matching_service: MatchingService = MatchingService()
-_response_service: ResponseService = ResponseService()
+_template_service: TemplateService = TemplateService()
+_response_service: ResponseService = ResponseService(template_service=_template_service)
 
 
 def get_settings_dep() -> Settings:
@@ -32,6 +34,11 @@ def get_matching_service() -> MatchingService:
 def get_response_service() -> ResponseService:
     """Dependency: Get response service instance."""
     return _response_service
+
+
+def get_template_service() -> TemplateService:
+    """Dependency: Get template service instance."""
+    return _template_service
 
 
 def get_database_dep():
