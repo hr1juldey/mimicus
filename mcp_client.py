@@ -63,7 +63,8 @@ class MCPClientManager:
             print(f"\n🔍 Discovering {len(config)} MCP server(s)...")
 
         for name, server_config in config.items():
-            url = server_config.get("httpUrl")
+            # Support both "url" and "httpUrl" formats
+            url = server_config.get("httpUrl") or server_config.get("url")
             if not url:
                 logger.warning(f"No URL for server: {name}")
                 continue
@@ -226,3 +227,30 @@ def print_servers_summary() -> None:
     """Print summary of discovered servers (sync wrapper)."""
     if _manager:
         _manager.print_summary()
+
+
+def format_result(result: Any) -> str:
+    """Format MCP tool call result for display."""
+    if not result:
+        return "No result returned"
+
+    # Handle content-based results (standard MCP response format)
+    if hasattr(result, "content") and result.content:
+        contents = []
+        for item in result.content:
+            if hasattr(item, "text"):
+                contents.append(item.text)
+            else:
+                contents.append(str(item))
+        return "\n".join(contents)
+
+    # Handle dict-based results
+    if isinstance(result, dict):
+        import json
+        try:
+            return json.dumps(result, indent=2)
+        except Exception:
+            return str(result)
+
+    # Fallback to string representation
+    return str(result)

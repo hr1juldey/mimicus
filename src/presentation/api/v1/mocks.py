@@ -106,6 +106,8 @@ async def handle_mock_request(
         )
     else:
         # Handle mock mode (default)
-        response = await response_service.generate_response(matched_mock, request_context)
+        response = await response_service.generate_response(
+            matched_mock, request_context
+        )
 
     return response

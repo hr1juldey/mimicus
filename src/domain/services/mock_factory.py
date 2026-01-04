@@ -1,7 +1,7 @@
 """Factory pattern for creating mock objects."""
 
 import uuid
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from src.domain.entities.mock_definition import (
     MockDefinition,
     MatchCriteria,

@@ -1,7 +1,7 @@
 """Async HTTP client for proxying requests to upstream services."""
 
 import httpx
-from typing import Dict, Optional, Any
+from typing import Dict
 from src.domain.entities.request_context import RequestContext
 
 

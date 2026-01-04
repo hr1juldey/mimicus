@@ -4,7 +4,6 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
-from src.infrastructure.database.models import MockDefinitionModel
 
 
 class DatabaseConnection:

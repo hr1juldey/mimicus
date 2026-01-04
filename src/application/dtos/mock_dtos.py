@@ -8,7 +8,9 @@ class MatchCriteriaDTO(BaseModel):
     """DTO for match criteria."""
 
     match_method: str = Field(..., description="HTTP method: GET, POST, etc")
-    match_path: str = Field(..., description="Path pattern: /api/users or /api/users/{id}")
+    match_path: str = Field(
+        ..., description="Path pattern: /api/users or /api/users/{id}"
+    )
     match_headers: Optional[Dict[str, str]] = None
     match_query: Optional[Dict[str, str]] = None
     match_body: Optional[Dict[str, str]] = None
@@ -24,7 +26,9 @@ class ResponseConfigDTO(BaseModel):
         default="", description="Response body (static or template)"
     )
     response_delay_ms: int = Field(default=0, description="Delay in milliseconds")
-    is_template: bool = Field(default=False, description="Whether body is Jinja2 template")
+    is_template: bool = Field(
+        default=False, description="Whether body is Jinja2 template"
+    )
 
 
 class CreateMockDTO(BaseModel):

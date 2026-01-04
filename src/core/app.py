@@ -6,7 +6,7 @@ from src.core.middleware.cors import setup_cors_middleware
 from src.core.middleware.logging import setup_logging_middleware
 from src.infrastructure.database.connection import init_database
 from src.presentation.api import health
-from src.presentation.api.v1 import mocks
+from src.presentation.api.v1 import mocks, auth, import_api
 
 
 def create_app() -> FastAPI:
@@ -24,6 +24,10 @@ def create_app() -> FastAPI:
     # Setup middleware
     setup_cors_middleware(app)
     setup_logging_middleware(app)
+    # Note: AuthMiddleware disabled by default for MVP testing
+    # Enable for production with proper auth token management
+    # jwt_svc = get_jwt_service()
+    # app.add_middleware(AuthMiddleware, jwt_service=jwt_svc)
 
     # Initialize database
     async def startup():
@@ -43,6 +47,8 @@ def create_app() -> FastAPI:
 
     # Register routers (order matters - specific routes first, catch-all last)
     app.include_router(health.router)
+    app.include_router(auth.router)
+    app.include_router(import_api.router)
 
     # Register admin API BEFORE catch-all mock handler
     from src.presentation.api.v1 import admin

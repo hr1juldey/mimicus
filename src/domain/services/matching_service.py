@@ -75,7 +75,8 @@ class MatchingService:
                 continue
 
             # Check method match
-            if not self._matches_method(mock.mock_match.match_method, request.request_method):
+            method = request.request_method
+            if not self._matches_method(mock.mock_match.match_method, method):
                 continue
 
             # Check path match

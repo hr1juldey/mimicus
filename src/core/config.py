@@ -35,6 +35,11 @@ class Settings(BaseSettings):
     config_upstream_url: Optional[str] = None
     timeout_seconds: int = 10
 
+    # JWT configuration
+    config_jwt_secret: str = "change-me-in-production"
+    config_jwt_algorithm: str = "HS256"
+    config_jwt_expiration_minutes: int = 60
+
 
 def get_settings() -> Settings:
     """Get application settings instance."""
