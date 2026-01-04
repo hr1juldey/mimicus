@@ -1,0 +1,14 @@
+{
+    "version": "1",
+    "tasks": [
+        {
+            "label": "Run with .venv",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "source .venv/bin/activate && python -V && exec \"$@\""
+            ],
+            "use_new_terminal": true
+        }
+    ]
+}
