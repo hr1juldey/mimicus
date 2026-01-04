@@ -41,8 +41,14 @@ def create_app() -> FastAPI:
     app.add_event_handler("startup", startup)
     app.add_event_handler("shutdown", shutdown)
 
-    # Register routers
+    # Register routers (order matters - specific routes first, catch-all last)
     app.include_router(health.router)
+
+    # Register admin API BEFORE catch-all mock handler
+    from src.presentation.api.v1 import admin
+    app.include_router(admin.router)
+
+    # Register catch-all mock handler last (matches any unhandled path)
     app.include_router(mocks.router)
 
     return app
