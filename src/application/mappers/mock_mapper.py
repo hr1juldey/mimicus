@@ -76,6 +76,8 @@ class MockMapper:
             entity.mock_priority = update_dto.mock_priority
         if update_dto.mock_enabled is not None:
             entity.mock_enabled = update_dto.mock_enabled
+        if update_dto.mock_mode is not None:
+            entity.mock_mode = update_dto.mock_mode
 
         if update_dto.response_status is not None:
             entity.mock_response.response_status = update_dto.response_status

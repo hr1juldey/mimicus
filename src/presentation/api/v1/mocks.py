@@ -11,6 +11,8 @@ from src.core.dependencies import (
 from src.domain.repositories.mock_repository import MockRepository
 from src.domain.services.matching_service import MatchingService
 from src.domain.services.response_service import ResponseService
+from src.domain.services.proxy_service import ProxyService
+from src.infrastructure.external.http_client import HTTPClient
 from src.domain.entities.request_context import RequestContext
 
 
@@ -95,7 +97,15 @@ async def handle_mock_request(
     # Update request context with path params
     request_context.request_path_params = path_params
 
-    # Generate response
-    response = await response_service.generate_response(matched_mock, request_context)
+    # Check mock mode and handle accordingly
+    if matched_mock.mock_mode in ["proxy", "proxy-with-fallback", "passthrough"]:
+        # Handle proxy modes
+        proxy_service = ProxyService(http_client=HTTPClient())
+        response = await proxy_service.handle_proxy_request(
+            matched_mock, request_context, response_service
+        )
+    else:
+        # Handle mock mode (default)
+        response = await response_service.generate_response(matched_mock, request_context)
 
     return response

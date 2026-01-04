@@ -53,6 +53,7 @@ class UpdateMockDTO(BaseModel):
     mock_name: Optional[str] = None
     mock_priority: Optional[int] = None
     mock_enabled: Optional[bool] = None
+    mock_mode: Optional[str] = None
     response_status: Optional[int] = None
     response_headers: Optional[Dict[str, str]] = None
     response_body: Optional[Union[str, Dict[str, Any]]] = None

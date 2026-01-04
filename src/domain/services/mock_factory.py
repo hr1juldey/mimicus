@@ -71,11 +71,14 @@ class MockFactory:
         **kwargs
     ) -> MockDefinition:
         """Create a mock configured for proxy mode."""
+        mock_mode = kwargs.pop("mock_mode", "proxy")
+        body = kwargs.pop("body", "")
+        match_path = kwargs.pop("match_path", path)
         return MockFactory.create_basic(
             name=name,
-            path=path,
-            body="",
-            mock_mode=kwargs.get("mock_mode", "proxy"),
+            path=match_path,
+            body=body,
+            mock_mode=mock_mode,
             upstream_url=upstream_url,
             **kwargs
         )
