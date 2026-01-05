@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     config_jwt_algorithm: str = "HS256"
     config_jwt_expiration_minutes: int = 60
 
+    # Image configuration
+    image_storage_path: str = "./storage/images"
+    image_max_dimension: int = 8000
+    image_max_upload_mb: int = 10
+    image_default_format: str = "png"
+    image_cache_enabled: bool = True
+
 
 def get_settings() -> Settings:
     """Get application settings instance."""

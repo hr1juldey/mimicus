@@ -2,12 +2,11 @@
 
 import json
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
-from dataclasses import dataclass
 
 from fastmcp import Client
-
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +50,9 @@ class MCPClientManager:
             config = json.load(f)
         return config.get("mcpServers", {})
 
-    async def discover_all_servers(self, verbose: bool = False) -> dict[str, ServerInfo]:
+    async def discover_all_servers(
+        self, verbose: bool = False
+    ) -> dict[str, ServerInfo]:
         """Discover all configured MCP servers and their capabilities."""
         config = self.load_config()
 
@@ -79,9 +80,7 @@ class MCPClientManager:
 
         return self.servers
 
-    async def _discover_server(
-        self, server: ServerInfo, verbose: bool = False
-    ) -> None:
+    async def _discover_server(self, server: ServerInfo, verbose: bool = False) -> None:
         """Discover capabilities of a single server."""
         client = Client(server.url)
 
@@ -117,9 +116,7 @@ class MCPClientManager:
                 # Discover prompts
                 prompts = await client.list_prompts()
                 for prompt in prompts:
-                    server.prompts[prompt.name] = {
-                        "description": prompt.description
-                    }
+                    server.prompts[prompt.name] = {"description": prompt.description}
                 if verbose and prompts:
                     print(f"  • {len(prompts)} prompt(s)")
 
@@ -144,9 +141,7 @@ class MCPClientManager:
             raise ValueError(f"Server not found: {server_name}")
 
         if tool_name not in server.tools:
-            raise ValueError(
-                f"Tool '{tool_name}' not found on server '{server_name}'"
-            )
+            raise ValueError(f"Tool '{tool_name}' not found on server '{server_name}'")
 
         client = Client(server.url)
         try:
@@ -171,7 +166,9 @@ class MCPClientManager:
 
     def get_all_tools(self) -> dict[str, list[str]]:
         """Get all tools grouped by server."""
-        return {name: list(server.tools.keys()) for name, server in self.servers.items()}
+        return {
+            name: list(server.tools.keys()) for name, server in self.servers.items()
+        }
 
     def print_summary(self) -> None:
         """Print a summary of discovered servers and tools."""
@@ -179,9 +176,9 @@ class MCPClientManager:
             print("No servers discovered")
             return
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("MCP SERVERS SUMMARY")
-        print("="*60)
+        print("=" * 60)
 
         for server_name, server in self.servers.items():
             print(f"\n📡 {server_name}")
@@ -199,7 +196,7 @@ class MCPClientManager:
                 for prompt_name in sorted(server.prompts.keys()):
                     print(f"     • {prompt_name}")
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
 
 
 # Global manager instance
@@ -247,6 +244,7 @@ def format_result(result: Any) -> str:
     # Handle dict-based results
     if isinstance(result, dict):
         import json
+
         try:
             return json.dumps(result, indent=2)
         except Exception:

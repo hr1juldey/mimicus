@@ -1,0 +1,99 @@
+site_name: Mimicus User Manual
+site_description: Mock any API for frontend development
+site_author: Mimicus Team
+repo_url: https://github.com/your-org/mimicus
+docs_dir: .
+site_dir: ../../site
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: pink
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Overview: getting-started/index.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - First Mock: getting-started/first-mock.md
+    - Troubleshooting: getting-started/troubleshooting.md
+  - Concepts:
+    - What is Mimicus?: concepts/what-is-mimicus.md
+    - Why Use Mocks?: concepts/why-use-mocks.md
+    - How It Works: concepts/how-it-works.md
+    - Mock vs Real API: concepts/mock-vs-real-api.md
+  - Core Features:
+    - Creating Mocks: core-features/creating-mocks.md
+    - Matching Requests: core-features/matching-requests.md
+    - Response Templates: core-features/response-templates.md
+    - Proxy Modes: core-features/proxy-modes.md
+    - Bulk Import: core-features/bulk-import.md
+  - Image Mocking:
+    - Overview: image-mocking/overview.md
+    - Dynamic Generation: image-mocking/dynamic-generation.md
+    - Responsive Images: image-mocking/responsive-images.md
+    - User Images: image-mocking/user-images.md
+    - Testing Layouts: image-mocking/testing-layouts.md
+  - API Reference:
+    - Admin API: api-reference/admin-api.md
+    - Mock API: api-reference/mock-api.md
+    - Image API: api-reference/image-api.md
+    - Authentication: api-reference/auth-api.md
+    - Schemas: api-reference/schemas.md
+  - Frontend Integration:
+    - React: frontend-integration/react-setup.md
+    - Next.js: frontend-integration/nextjs-setup.md
+    - Vue.js: frontend-integration/vue-setup.md
+    - Angular: frontend-integration/angular-setup.md
+    - Environment Config: frontend-integration/environment-config.md
+    - Migration Guide: frontend-integration/migration-to-real-api.md
+  - Tutorials:
+    - E-Commerce Store: tutorials/ecommerce-store.md
+    - User Authentication: tutorials/user-authentication.md
+    - CRUD Operations: tutorials/crud-operations.md
+    - Error Handling: tutorials/error-handling.md
+    - Slow Network: tutorials/slow-network.md
+  - Advanced:
+    - Template Cookbook: advanced/template-cookbook.md
+    - Conditional Responses: advanced/conditional-responses.md
+    - State Management: advanced/state-management.md
+    - Custom Headers: advanced/custom-headers.md
+    - Priority Rules: advanced/priority-rules.md
+  - Extending:
+    - Plugin System: extending/plugin-system.md
+    - Custom Generators: extending/custom-generators.md
+    - Middleware: extending/middleware.md
+    - Contributing: extending/contributing.md
+  - Reference:
+    - Template Syntax: reference/template-syntax.md
+    - Template Helpers: reference/template-helpers.md
+    - Configuration: reference/configuration.md
+    - Error Codes: reference/error-codes.md
+    - Glossary: reference/glossary.md
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
