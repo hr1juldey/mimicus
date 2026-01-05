@@ -50,35 +50,6 @@ The ultimate mock server for frontend developers, integration teams, and QA engi
 
 ---
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.12+
-- `uv` package manager
-
-### Installation
-
-```bash
-# Install dependencies
-uv sync
-
-# Activate virtual environment
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate     # Windows
-```
-
-### Running the Server
-
-```bash
-# Start the mock server
-python main.py
-```
-
-The server will start on `http://localhost:18000`
-
----
-
 ## 🚀 Quick Start in 5 Minutes
 
 ### Quick Installation
