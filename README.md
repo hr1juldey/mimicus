@@ -1,21 +1,52 @@
 # 🎭 Mimicus
 
-**Universal Mock & Mimic Service** — Mock any HTTP API for frontend engineers and integration teams when the real backend is unavailable.
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/hr1juldey/mimicus/releases)
+[![Python](https://img.shields.io/badge/python-3.12+-green.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/fastapi-0.110+-blueviolet.svg)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](https://github.com/hr1juldey/mimicus)
 
-Mimicus is a FastAPI-based mock server that enables developers to:
-- Define realistic mock APIs with flexible matching rules
+> **Universal Mock & Mimic Service** — Mock any HTTP API in seconds. Zero backend needed.
+
+The ultimate mock server for frontend developers, integration teams, and QA engineers. Build, test, and ship **without waiting for real APIs**.
+
+## ✨ What You Can Do
+
+### 🚀 **Mock Any API**
+
+- Define realistic mock APIs with flexible request matching
 - Generate dynamic responses using Jinja2 templates
-- Record and replay API interactions
-- Proxy requests to real backends with fallback to mocks
-- Import OpenAPI specifications to auto-generate mocks
-- Manage all mocks via a REST admin API
+- Match on method, path, headers, query params, and body
+- Control response with priority rules
 
-Perfect for:
-- Frontend development when backend is in progress
-- Integration testing with multiple API versions
-- Development environment isolation
-- API contract testing
-- Load testing with controlled responses
+### 🎨 **Generate Images On-the-Fly**
+
+- Placeholder images with custom dimensions (1-8000px)
+- Device presets (mobile, tablet, desktop)
+- Upload your own images with auto-detection
+- Perfect for responsive design testing
+
+### 🔄 **Seamless Switching**
+
+- Start with mocks, switch to real API without code changes
+- Proxy mode with fallback to mocks
+- Import OpenAPI specs to auto-generate mocks
+
+### ⚡ **Test Everything**
+
+- Simulate errors (404, 500, timeouts)
+- Add realistic delays
+- Test edge cases before backend exists
+- Load test with controlled responses
+
+**Perfect for:**
+
+- ✅ Frontend teams waiting for backend
+- ✅ Integration testing with multiple API versions
+- ✅ Development environment isolation
+- ✅ API contract testing
+- ✅ Responsive design testing across devices
+- ✅ QA edge case simulation
 
 ---
 
@@ -48,11 +79,67 @@ The server will start on `http://localhost:18000`
 
 ---
 
+## 🚀 Quick Start in 5 Minutes
+
+### Quick Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/hr1juldey/mimicus.git
+cd mimicus
+
+# Install dependencies
+uv sync
+
+# Start the server
+python main.py
+```
+
+✅ **Server running!** Open: `http://localhost:18000`
+
+### Create Your First Mock
+
+```bash
+curl -X POST http://localhost:18000/api/admin/mocks \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mock_name": "Get User",
+    "match_method": "GET",
+    "match_path": "/api/users/1",
+    "response_status": 200,
+    "response_body": "{\"id\": 1, \"name\": \"John\", \"email\": \"john@example.com\"}"
+  }'
+```
+
+### Test Your Mock
+
+```bash
+curl http://localhost:18000/api/users/1
+# Returns: {"id": 1, "name": "John", "email": "john@example.com"}
+```
+
+### 🎨 Generate Images On-the-Fly
+
+```bash
+# Generate a 300x200 placeholder image
+curl http://localhost:18000/api/images/300x200 > image.png
+
+# Get device presets (mobile, tablet, desktop)
+curl http://localhost:18000/api/images/responsive/mobile
+
+# Upload your own image
+curl -X POST http://localhost:18000/api/images/upload -F "file=@product.jpg"
+```
+
+🎉 **That's it!** Your mock API is live with images.
+
+---
+
 ## Architecture Overview
 
 Mimicus follows a **clean, layered architecture** with clear separation of concerns:
 
-```
+```bash
 ┌──────────────────────────────────────────────────┐
 │         Presentation Layer (FastAPI)             │
 │  ┌──────────┐  ┌──────────┐  ┌──────────────┐    │
@@ -90,21 +177,25 @@ Mimicus follows a **clean, layered architecture** with clear separation of conce
 ### Key Layers
 
 **Presentation Layer:** FastAPI routes handling HTTP requests
+
 - Admin API for CRUD operations on mock definitions
 - Mock handler for dynamic request routing
 - Health check endpoints
 
 **Application Layer:** Business logic orchestration
+
 - Use Cases: CreateMock, UpdateMock, DeleteMock, etc.
 - DTOs: Data transfer between API and domain
 - Mappers: Entity ↔ DTO conversions
 
 **Domain Layer:** Core business logic
+
 - Entities: MockDefinition with MatchCriteria & ResponseConfig
 - Services: MatchingService, ResponseService, TemplateService, ProxyService
 - Repositories: Abstract data access interface
 
 **Infrastructure Layer:** External systems
+
 - Database: SQLite with SQLModel ORM
 - HTTP Client: Async proxy requests to upstream servers
 - Configuration: Environment-based settings
@@ -159,6 +250,7 @@ curl -X POST http://localhost:18000/api/admin/mocks \
 ```
 
 Template variables available:
+
 - `{{ request.json }}` - Request body as dict
 - `{{ request.headers }}` - Request headers
 - `{{ request.query }}` - Query parameters
@@ -185,6 +277,7 @@ curl -X POST http://localhost:18000/api/admin/mocks \
 ```
 
 Modes:
+
 - **mock** - Return static/template response
 - **proxy** - Always forward to upstream (fail if unreachable)
 - **proxy-with-fallback** - Try upstream, fallback to mock response on error
@@ -209,6 +302,7 @@ curl -X POST http://localhost:18000/api/admin/mocks \
 ```
 
 Matching criteria:
+
 - **Method:** GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS
 - **Path:** Exact or template patterns (e.g., `/users/{id}`)
 - **Headers:** Match on specific header values
@@ -252,16 +346,19 @@ curl -X POST http://localhost:18000/api/admin/mocks \
 ### 8. Manage Mocks
 
 List all mocks:
+
 ```bash
 curl http://localhost:18000/api/admin/mocks
 ```
 
 Get a specific mock:
+
 ```bash
 curl http://localhost:18000/api/admin/mocks/{mock_id}
 ```
 
 Update a mock:
+
 ```bash
 curl -X PUT http://localhost:18000/api/admin/mocks/{mock_id} \
   -H "Content-Type: application/json" \
@@ -269,11 +366,13 @@ curl -X PUT http://localhost:18000/api/admin/mocks/{mock_id} \
 ```
 
 Delete a mock:
+
 ```bash
 curl -X DELETE http://localhost:18000/api/admin/mocks/{mock_id}
 ```
 
 Toggle enabled status:
+
 ```bash
 curl -X PATCH http://localhost:18000/api/admin/mocks/{mock_id}/toggle
 ```
@@ -308,6 +407,7 @@ pytest --cov=src    # With coverage report
 ```
 
 Current test coverage:
+
 - **Stage 1:** Core Mock Engine (10 tests)
 - **Stage 2:** Template Engine (15 tests)
 - **Stage 3:** Admin REST API (17 tests)
@@ -319,6 +419,7 @@ Current test coverage:
 ## Development Roadmap
 
 ### Completed (MVP - Stages 1-4)
+
 - ✅ Core mock request matching and response generation
 - ✅ Jinja2 template support with request variables
 - ✅ Admin REST API for CRUD operations
@@ -326,11 +427,13 @@ Current test coverage:
 - ✅ Comprehensive test coverage (50+ tests)
 
 ### In Progress (Stage 5)
+
 - 🔄 Use Case Layer Extraction (architectural refactoring)
 - 🔄 Improved testability and code organization
 - 🔄 Foundation for caching and auth
 
 ### Coming Soon (Stages 6-8)
+
 - 🔜 **Stage 6:** JWT Authentication & API Keys
 - 🔜 **Stage 7:** OpenAPI Spec Import & File Storage
 - 🔜 **Stage 8:** Redis Caching Layer
@@ -339,7 +442,7 @@ Current test coverage:
 
 ## Project Structure
 
-```
+```bash
 mimicus/
 ├── src/
 │   ├── core/                 # Application setup & configuration
@@ -398,12 +501,25 @@ MIT
 
 ---
 
-## Support & Documentation
+## 📖 Documentation & Support
 
-- **Design Docs:** See `docs/HLD.md` (high-level) and `docs/LLD.md` (low-level)
-- **Variable Naming:** See `docs/VARIABLE_NAMES.md`
+- **Full User Manual:** [https://hr1juldey.github.io/mimicus/](https://hr1juldey.github.io/mimicus/)
+- **Quick Start:** [Getting Started Guide](https://hr1juldey.github.io/mimicus/getting-started/)
+- **API Reference:** [Complete Endpoint Docs](https://hr1juldey.github.io/mimicus/api-reference/image-api/)
+- **Image Mocking:** [Guide & Examples](https://hr1juldey.github.io/mimicus/image-mocking/)
+- **Design Docs:** See `docs/HLD.md` & `docs/LLD.md`
 - **Developer Guide:** See `CLAUDE.md`
 
 ---
 
-**Built with FastAPI, SQLModel, and async/await for modern Python development.**
+## 👤 Creator
+
+### **Hrijul Dey**
+
+📧 [Mail](mailto:deyinmylife5@gmail.com) | [LinkedIn](https://www.linkedin.com/in/dey-h-ml972/) | [𝕏](https://x.com/HrijulD)
+
+---
+
+**Built with FastAPI, Pillow, Jinja2, and async/await for modern Python development.**
+
+**MIT License** — Free to use and modify

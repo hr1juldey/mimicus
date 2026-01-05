@@ -1,7 +1,9 @@
 site_name: Mimicus User Manual
 site_description: Mock any API for frontend development
 site_author: Mimicus Team
-repo_url: https://github.com/your-org/mimicus
+site_url: https://hr1juldey.github.io/mimicus/
+repo_url: https://github.com/hr1juldey/mimicus
+repo_name: mimicus
 docs_dir: .
 site_dir: ../../site
 
