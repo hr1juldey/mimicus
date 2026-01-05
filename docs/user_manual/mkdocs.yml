@@ -4,8 +4,6 @@ site_author: Mimicus Team
 site_url: https://hr1juldey.github.io/mimicus/
 repo_url: https://github.com/hr1juldey/mimicus
 repo_name: mimicus
-docs_dir: .
-site_dir: ../../site
 
 theme:
   name: material
