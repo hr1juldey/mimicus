@@ -1,0 +1,1 @@
+{"openapi": "3.0.0", "paths": {"/api/test": {"get": {"responses": {"200": {"description": "OK", "content": {"application/json": {"example": {"test": "data"}}}}}}}}}

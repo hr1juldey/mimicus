@@ -5,8 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from src.core.dependencies import (
     get_bulk_import_use_case,
     get_mock_mapper,
+    get_import_openapi_use_case,
 )
 from src.application.use_cases.bulk_import import BulkImportUseCase
+from src.application.use_cases.import_openapi import ImportOpenAPIUseCase
 from src.application.mappers.mock_mapper import MockMapper
 from src.application.exceptions import InvalidJSONError
 
@@ -45,6 +47,44 @@ async def import_json_file(
             "errors": result["errors"],
             "mocks": mocks_dtos,
             "error_details": result["error_details"],
+        }
+    except InvalidJSONError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/openapi")
+async def import_openapi_spec(
+    file: UploadFile = File(...),
+    use_case: ImportOpenAPIUseCase = Depends(get_import_openapi_use_case),
+    mapper: MockMapper = Depends(get_mock_mapper),
+) -> dict:
+    """Import mocks from OpenAPI specification.
+
+    Args:
+        file: OpenAPI/Swagger file (JSON or YAML)
+        use_case: OpenAPI import use case
+        mapper: Mock mapper for DTO conversion
+
+    Returns:
+        Dict with import results (spec_path, mocks_created, mocks)
+
+    Raises:
+        HTTPException: If import fails
+    """
+    try:
+        content = await file.read()
+        spec_str = content.decode()
+        is_yaml = file.filename.endswith((".yaml", ".yml"))
+
+        result = await use_case.execute(spec_str, file.filename, is_yaml)
+        mocks_dtos = [mapper.entity_to_dto(m) for m in result["mocks"]]
+
+        return {
+            "spec_path": result["spec_path"],
+            "mocks_created": result["mocks_created"],
+            "mocks": mocks_dtos,
         }
     except InvalidJSONError as e:
         raise HTTPException(status_code=400, detail=str(e))

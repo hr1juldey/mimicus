@@ -77,6 +77,8 @@ class MockResponseDTO(BaseModel):
     mock_priority: int
     mock_enabled: bool
     mock_mode: str
+    match_method: str
+    match_path: str
     response_status: int
     response_headers: Dict[str, str]
     response_body: Union[str, Dict[str, Any]]

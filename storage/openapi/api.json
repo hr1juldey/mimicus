@@ -1,0 +1,1 @@
+{"openapi": "3.0.0", "paths": {"/api/products": {"get": {"responses": {"200": {"description": "List"}}}, "post": {"responses": {"201": {"description": "Created"}}}}, "/api/products/{id}": {"get": {"responses": {"200": {"description": "Get"}}}, "put": {"responses": {"200": {"description": "Update"}}}, "delete": {"responses": {"204": {"description": "Delete"}}}}}}

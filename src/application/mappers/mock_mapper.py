@@ -57,6 +57,8 @@ class MockMapper:
             mock_priority=entity.mock_priority,
             mock_enabled=entity.mock_enabled,
             mock_mode=entity.mock_mode,
+            match_method=entity.mock_match.match_method,
+            match_path=entity.mock_match.match_path,
             response_status=entity.mock_response.response_status,
             response_headers=entity.mock_response.response_headers,
             response_body=entity.mock_response.response_body,
