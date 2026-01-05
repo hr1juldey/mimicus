@@ -389,25 +389,38 @@ Current test coverage:
 
 ## Development Roadmap
 
-### Completed (MVP - Stages 1-4)
+### ✅ Completed (Stages 1-5)
 
+**Stage 1-4: Core Features**
 - ✅ Core mock request matching and response generation
 - ✅ Jinja2 template support with request variables
 - ✅ Admin REST API for CRUD operations
 - ✅ Proxy modes with upstream fallback
 - ✅ Comprehensive test coverage (50+ tests)
 
-### In Progress (Stage 5)
+**Stage 5: Image Generation & Documentation**
+- ✅ Dynamic placeholder image generation (1-8000px)
+- ✅ Device presets (mobile, tablet, desktop)
+- ✅ User image upload with auto-dimension detection
+- ✅ Responsive image set generation
+- ✅ Image caching with file-based storage
+- ✅ Complete User Manual (26 documentation files)
+- ✅ MkDocs integration with Material theme
+- ✅ GitHub Pages ready deployment
+- ✅ Comprehensive API reference
+- ✅ React integration guide
 
-- 🔄 Use Case Layer Extraction (architectural refactoring)
-- 🔄 Improved testability and code organization
-- 🔄 Foundation for caching and auth
+### 🔄 In Progress (Stage 6)
 
-### Coming Soon (Stages 6-8)
+- 🔄 GitHub Actions auto-deployment workflow
+- 🔄 Advanced testing frameworks
+- 🔄 Performance optimization
 
-- 🔜 **Stage 6:** JWT Authentication & API Keys
-- 🔜 **Stage 7:** OpenAPI Spec Import & File Storage
-- 🔜 **Stage 8:** Redis Caching Layer
+### 🔜 Coming Soon (Stages 7-9)
+
+- 🔜 **Stage 7:** JWT Authentication & API Keys
+- 🔜 **Stage 8:** OpenAPI Spec Import & File Storage
+- 🔜 **Stage 9:** Redis Caching Layer & Advanced Features
 
 ---
 
