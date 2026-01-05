@@ -68,6 +68,44 @@ python main.py
 
 ✅ **Server running!** Open: `http://localhost:18000`
 
+### 🔐 Default Credentials (Stage 7 - JWT Authentication)
+
+Your Mimicus server comes with a **default admin account** for immediate testing:
+
+```
+📧 Username: admin
+🔑 Password: admin123
+```
+
+**Login to get JWT tokens:**
+
+```bash
+curl -X POST http://localhost:18000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}'
+
+# Returns: {
+#   "access_token": "eyJ...",
+#   "refresh_token": "eyJ...",
+#   "token_type": "bearer",
+#   "expires_in": 3600
+# }
+```
+
+**Register new users:**
+
+```bash
+curl -X POST http://localhost:18000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "john",
+    "email": "john@example.com",
+    "password": "secure_password_123"
+  }'
+```
+
+---
+
 ### Create Your First Mock
 
 ```bash
@@ -383,13 +421,14 @@ Current test coverage:
 - **Stage 2:** Template Engine (15 tests)
 - **Stage 3:** Admin REST API (17 tests)
 - **Stage 4:** Proxy Mode (8 tests)
-- **Total:** 50+ tests passing
+- **Stage 7:** JWT Authentication (38 tests)
+- **Total:** 88 tests passing
 
 ---
 
 ## Development Roadmap
 
-### ✅ Completed (Stages 1-5)
+### ✅ Completed (Stages 1-7)
 
 **Stage 1-4: Core Features**
 - ✅ Core mock request matching and response generation
@@ -410,15 +449,24 @@ Current test coverage:
 - ✅ Comprehensive API reference
 - ✅ React integration guide
 
+**Stage 7: JWT Authentication & API Keys**
+- ✅ User login with JWT tokens (access + refresh)
+- ✅ User registration with validation
+- ✅ Secure password hashing (PBKDF2-SHA256)
+- ✅ API key generation and management
+- ✅ Role-based access control (admin, viewer)
+- ✅ Default admin account (admin/admin123)
+- ✅ Token refresh mechanism
+- ✅ Comprehensive test coverage (38 new tests, 88 total)
+
 ### 🔄 In Progress (Stage 6)
 
 - 🔄 GitHub Actions auto-deployment workflow
 - 🔄 Advanced testing frameworks
 - 🔄 Performance optimization
 
-### 🔜 Coming Soon (Stages 7-9)
+### 🔜 Coming Soon (Stages 8-9)
 
-- 🔜 **Stage 7:** JWT Authentication & API Keys
 - 🔜 **Stage 8:** OpenAPI Spec Import & File Storage
 - 🔜 **Stage 9:** Redis Caching Layer & Advanced Features
 

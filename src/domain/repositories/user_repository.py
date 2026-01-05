@@ -2,7 +2,9 @@
 
 from abc import ABC, abstractmethod
 from typing import Optional
+import uuid
 from src.domain.entities.user import User
+from src.infrastructure.security import PasswordHasher
 
 
 class UserRepository(ABC):
@@ -38,15 +40,17 @@ class InMemoryUserRepository(UserRepository):
     """In-memory implementation of user repository."""
 
     def __init__(self):
-        """Initialize with default admin user."""
+        """Initialize with default admin user (admin/admin123)."""
         self._users: dict[str, User] = {}
-        # Create default admin user for testing
+        # Create default admin user with password "admin123"
+        admin_hash = PasswordHasher.hash_password("admin123")
         admin = User(
             user_id="admin-001",
             username="admin",
             email="admin@mimicus.local",
-            password_hash="$2b$12$hash",
+            password_hash=admin_hash,
             roles=["admin", "viewer"],
+            api_key=str(uuid.uuid4()),
         )
         self._users[admin.user_id] = admin
 

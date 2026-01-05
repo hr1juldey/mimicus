@@ -3,6 +3,7 @@
 from src.domain.repositories.user_repository import UserRepository
 from src.domain.services.jwt_service import JWTService
 from src.application.auth_exceptions import InvalidCredentialsError
+from src.infrastructure.security import PasswordHasher
 
 
 class AuthenticateUserUseCase:
@@ -10,7 +11,7 @@ class AuthenticateUserUseCase:
 
     Business rules:
     - Verify user exists by username
-    - Verify password matches hash
+    - Verify password matches hash using PBKDF2
     - Generate JWT tokens on success
     - Raise InvalidCredentialsError on failure
     """
@@ -46,7 +47,7 @@ class AuthenticateUserUseCase:
         if not user or not user.is_active:
             raise InvalidCredentialsError("Invalid username or password")
 
-        if not self._verify_password(password, user.password_hash):
+        if not PasswordHasher.verify_password(password, user.password_hash):
             raise InvalidCredentialsError("Invalid username or password")
 
         access_token = self.jwt_service.create_access_token(
@@ -59,19 +60,3 @@ class AuthenticateUserUseCase:
             "refresh_token": refresh_token,
             "expires_in": 3600,
         }
-
-    def _verify_password(
-        self, plain_password: str, hashed_password: str
-    ) -> bool:
-        """Verify password against hash.
-
-        Args:
-            plain_password: Plain password to check
-            hashed_password: Hashed password to compare
-
-        Returns:
-            True if password matches, False otherwise
-        """
-        import hashlib
-
-        return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password

@@ -2,15 +2,25 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from src.core.dependencies import get_authenticate_user_use_case, get_jwt_service
+from src.core.dependencies import (
+    get_authenticate_user_use_case,
+    get_register_user_use_case,
+    get_jwt_service,
+)
 from src.application.use_cases.authenticate_user import AuthenticateUserUseCase
+from src.application.use_cases.register_user import RegisterUserUseCase
 from src.domain.services.jwt_service import JWTService
 from src.application.dtos.auth_dtos import (
     LoginRequest,
     TokenResponse,
     RefreshTokenRequest,
+    RegisterRequest,
+    RegisterResponse,
 )
-from src.application.auth_exceptions import InvalidCredentialsError
+from src.application.auth_exceptions import (
+    InvalidCredentialsError,
+    AuthError,
+)
 
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -41,6 +51,35 @@ async def login(
         )
     except InvalidCredentialsError as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+
+@router.post("/register", response_model=RegisterResponse)
+async def register(
+    request: RegisterRequest,
+    use_case: RegisterUserUseCase = Depends(get_register_user_use_case),
+) -> RegisterResponse:
+    """Register new user account.
+
+    Args:
+        request: Registration details
+
+    Returns:
+        RegisterResponse with user_id and api_key
+
+    Raises:
+        HTTPException: If registration fails
+    """
+    try:
+        result = await use_case.execute(
+            request.username, request.email, request.password
+        )
+        return RegisterResponse(
+            user_id=result["user_id"],
+            username=request.username,
+            api_key=result["api_key"],
+        )
+    except AuthError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/refresh", response_model=TokenResponse)

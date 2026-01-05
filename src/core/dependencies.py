@@ -24,6 +24,9 @@ from src.core.dependencies_auth import (
     get_jwt_service,
     get_user_repository,
     get_authenticate_user_use_case,
+    get_register_user_use_case,
+    get_generate_api_key_use_case,
+    get_revoke_api_key_use_case,
 )
 from src.core.dependencies_import import (
     get_file_storage,
@@ -49,6 +52,9 @@ __all__ = [
     "get_jwt_service",
     "get_user_repository",
     "get_authenticate_user_use_case",
+    "get_register_user_use_case",
+    "get_generate_api_key_use_case",
+    "get_revoke_api_key_use_case",
     "get_file_storage",
     "get_openapi_importer",
     "get_import_openapi_use_case",

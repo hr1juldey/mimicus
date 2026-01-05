@@ -1,7 +1,7 @@
 """Data Transfer Objects for authentication."""
 
-from typing import List
-from pydantic import BaseModel, Field
+from typing import List, Optional
+from pydantic import BaseModel, Field, EmailStr
 
 
 class LoginRequest(BaseModel):
@@ -41,3 +41,19 @@ class RefreshTokenRequest(BaseModel):
     """DTO for refresh token request."""
 
     refresh_token: str = Field(..., description="Refresh token")
+
+
+class RegisterRequest(BaseModel):
+    """DTO for user registration."""
+
+    username: str = Field(..., min_length=3, description="Username")
+    email: str = Field(..., description="Email address")
+    password: str = Field(..., min_length=8, description="Password")
+
+
+class RegisterResponse(BaseModel):
+    """DTO for registration response."""
+
+    user_id: str = Field(..., description="New user ID")
+    username: str = Field(..., description="Username")
+    api_key: str = Field(..., description="Generated API key")
