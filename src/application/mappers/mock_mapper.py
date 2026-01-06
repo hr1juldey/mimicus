@@ -34,6 +34,9 @@ class MockMapper:
             response_body=dto.response_body,
             response_delay_ms=dto.response_delay_ms,
             is_template=dto.is_template,
+            error_rate=dto.error_rate,
+            error_status_code=dto.error_status_code,
+            error_body=dto.error_body,
         )
 
         return MockDefinition(
@@ -64,6 +67,9 @@ class MockMapper:
             response_body=entity.mock_response.response_body,
             response_delay_ms=entity.mock_response.response_delay_ms,
             is_template=entity.mock_response.is_template,
+            error_rate=entity.mock_response.error_rate,
+            error_status_code=entity.mock_response.error_status_code,
+            error_body=entity.mock_response.error_body,
             upstream_url=entity.upstream_url,
         )
 
@@ -91,6 +97,12 @@ class MockMapper:
             entity.mock_response.response_delay_ms = update_dto.response_delay_ms
         if update_dto.is_template is not None:
             entity.mock_response.is_template = update_dto.is_template
+        if update_dto.error_rate is not None:
+            entity.mock_response.error_rate = update_dto.error_rate
+        if update_dto.error_status_code is not None:
+            entity.mock_response.error_status_code = update_dto.error_status_code
+        if update_dto.error_body is not None:
+            entity.mock_response.error_body = update_dto.error_body
         if update_dto.upstream_url is not None:
             entity.upstream_url = update_dto.upstream_url
         if update_dto.timeout_seconds is not None:

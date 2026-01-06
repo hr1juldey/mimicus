@@ -3,7 +3,7 @@
 import secrets
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from jinja2 import Environment, BaseLoader, TemplateError
 from faker import Faker
 from src.domain.entities.request_context import RequestContext
@@ -12,10 +12,11 @@ from src.domain.entities.request_context import RequestContext
 class TemplateService:
     """Service for rendering Jinja2 templates with request context."""
 
-    def __init__(self):
+    def __init__(self, state_service: Optional[Any] = None):
         """Initialize Jinja2 environment with custom filters."""
         self.env = Environment(loader=BaseLoader())
         self.faker = Faker()
+        self.state_service = state_service
         self._register_filters()
 
     def _register_filters(self) -> None:
@@ -39,7 +40,7 @@ class TemplateService:
 
     def _build_context(self, request_context: RequestContext) -> Dict[str, Any]:
         """Build template context from request."""
-        return {
+        context = {
             "request": {
                 "method": request_context.request_method,
                 "path": request_context.request_path,
@@ -53,6 +54,14 @@ class TemplateService:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         }
+
+        # Add session/state info if available
+        if request_context.session_id:
+            context["session_id"] = request_context.session_id
+        if request_context.client_ip:
+            context["client_ip"] = request_context.client_ip
+
+        return context
 
     async def render_template(
         self, template_str: str, request_context: RequestContext

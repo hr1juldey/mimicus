@@ -2,6 +2,7 @@
 
 import json
 import asyncio
+import random
 from typing import Any, Dict, Union, Optional
 from fastapi import Response
 from src.domain.entities.mock_definition import MockDefinition
@@ -11,9 +12,14 @@ from src.domain.entities.request_context import RequestContext
 class ResponseService:
     """Service to generate responses from mock definitions."""
 
-    def __init__(self, template_service: Optional[Any] = None):
-        """Initialize response service with optional template service."""
+    def __init__(
+        self,
+        template_service: Optional[Any] = None,
+        rate_limiter: Optional[Any] = None,
+    ):
+        """Initialize response service with optional template and rate limiter."""
         self.template_service = template_service
+        self.rate_limiter = rate_limiter
 
     @staticmethod
     def _prepare_body(
@@ -40,8 +46,30 @@ class ResponseService:
         request_context: RequestContext,
     ) -> Response:
         """Generate HTTP response from mock definition."""
-        # Get response config
         response_config = mock_def.mock_response
+        client_ip = request_context.client_ip
+
+        # Check rate limit first
+        if self.rate_limiter:
+            allowed = self.rate_limiter.is_allowed(mock_def.mock_id, client_ip)
+            if not allowed:
+                return Response(
+                    content="Too Many Requests",
+                    status_code=429,
+                    headers={"Content-Type": "text/plain"},
+                )
+
+        # Check error rate (random injection)
+        if response_config.error_rate > 0:
+            if random.randint(0, 100) < response_config.error_rate:
+                return Response(
+                    content=response_config.error_body,
+                    status_code=response_config.error_status_code,
+                    headers=self._prepare_headers(
+                        response_config.response_headers.copy()
+                    ),
+                    media_type="application/json",
+                )
 
         # Apply delay if configured
         if response_config.response_delay_ms > 0:

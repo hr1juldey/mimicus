@@ -29,6 +29,11 @@ class ResponseConfigDTO(BaseModel):
     is_template: bool = Field(
         default=False, description="Whether body is Jinja2 template"
     )
+    error_rate: int = Field(
+        default=0, description="Error rate percentage (0-100)"
+    )
+    error_status_code: int = Field(default=500, description="Status code for errors")
+    error_body: str = Field(default="", description="Error response body")
 
 
 class CreateMockDTO(BaseModel):
@@ -47,6 +52,9 @@ class CreateMockDTO(BaseModel):
     response_body: Union[str, Dict[str, Any]] = ""
     response_delay_ms: int = 0
     is_template: bool = False
+    error_rate: int = 0
+    error_status_code: int = 500
+    error_body: str = ""
     upstream_url: Optional[str] = None
     timeout_seconds: int = 10
 
@@ -63,6 +71,9 @@ class UpdateMockDTO(BaseModel):
     response_body: Optional[Union[str, Dict[str, Any]]] = None
     response_delay_ms: Optional[int] = None
     is_template: Optional[bool] = None
+    error_rate: Optional[int] = None
+    error_status_code: Optional[int] = None
+    error_body: Optional[str] = None
     upstream_url: Optional[str] = None
     timeout_seconds: Optional[int] = None
 
@@ -84,6 +95,9 @@ class MockResponseDTO(BaseModel):
     response_body: Union[str, Dict[str, Any]]
     response_delay_ms: int
     is_template: bool
+    error_rate: int = 0
+    error_status_code: int = 500
+    error_body: str = ""
     upstream_url: Optional[str]
 
 

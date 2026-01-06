@@ -35,6 +35,9 @@ class ResponseConfig:
     response_body: Union[str, Dict] = ""
     response_delay_ms: int = 0
     is_template: bool = False
+    error_rate: int = 0
+    error_status_code: int = 500
+    error_body: str = ""
 
 
 @dataclass

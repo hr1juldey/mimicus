@@ -6,7 +6,7 @@ from src.core.middleware.cors import setup_cors_middleware
 from src.core.middleware.logging import setup_logging_middleware
 from src.infrastructure.database.connection import init_database
 from src.presentation.api import health
-from src.presentation.api.v1 import mocks, auth, import_api, images
+from src.presentation.api.v1 import mocks, auth, import_api, images, state_api
 
 
 def create_app() -> FastAPI:
@@ -50,6 +50,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router)
     app.include_router(images.router)
     app.include_router(import_api.router)
+    app.include_router(state_api.router)
 
     # Register admin API BEFORE catch-all mock handler
     from src.presentation.api.v1 import admin

@@ -124,9 +124,13 @@ class MCPClientManager:
             logger.error(f"Failed to discover {server.name}: {e}")
 
     async def call_tool(
-        self, tool_name: str, args: dict[str, Any], server_name: Optional[str] = None
+        self,
+        tool_name: str,
+        args: dict[str, Any],
+        server_name: Optional[str] = None,
+        progress_callback=None,
     ) -> Any:
-        """Call a tool on any discovered server."""
+        """Call a tool on any discovered server with progress streaming."""
         if not self._discovered:
             await self.discover_all_servers()
 
@@ -143,7 +147,21 @@ class MCPClientManager:
         if tool_name not in server.tools:
             raise ValueError(f"Tool '{tool_name}' not found on server '{server_name}'")
 
-        client = Client(server.url)
+        # Default progress handler if none provided
+        if progress_callback is None:
+
+            def default_progress_handler(progress, total, message):
+                """Default: print progress to stdout."""
+                if message:
+                    if total:
+                        pct = (progress / total * 100) if total > 0 else 0
+                        print(f"  ⏳ {pct:.0f}% - {message}")
+                    else:
+                        print(f"  ⏳ {message}")
+
+            progress_callback = default_progress_handler
+
+        client = Client(server.url, progress_handler=progress_callback)
         try:
             async with client:
                 result = await client.call_tool(tool_name, args)

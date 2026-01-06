@@ -45,6 +45,14 @@ async def build_request_context(request: Request) -> RequestContext:
     # Extract path params (will be added by matching service)
     path_params = {}
 
+    # Extract session_id from headers (X-Session-ID)
+    session_id = headers.get("X-Session-ID") or headers.get("x-session-id")
+
+    # Extract client IP
+    client_ip = None
+    if request.client:
+        client_ip = request.client.host
+
     return RequestContext(
         request_method=request.method,
         request_path=request.url.path,
@@ -53,6 +61,8 @@ async def build_request_context(request: Request) -> RequestContext:
         request_body=body.decode() if body else None,
         request_json=request_json,
         request_path_params=path_params,
+        session_id=session_id,
+        client_ip=client_ip,
     )
 
 

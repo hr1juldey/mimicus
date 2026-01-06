@@ -15,6 +15,8 @@ class RequestContext:
     request_body: Optional[str] = None
     request_json: Optional[Dict[str, Any]] = None
     request_path_params: Dict[str, str] = field(default_factory=dict)
+    session_id: Optional[str] = None
+    client_ip: Optional[str] = None
 
     def get_request_header(self, header_name: str) -> Optional[str]:
         """Get header value case-insensitively."""
