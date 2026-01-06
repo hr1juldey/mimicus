@@ -13,7 +13,6 @@ from src.application.dtos.image_dtos import (
     ImageMetadataResponseDTO,
     ResponsiveSetDTO,
     UploadImageResponseDTO,
-    ImageListResponseDTO,
 )
 from src.domain.entities.image_spec import ImageSpec, ImageDimensions, ImageFormat
 from src.application.exceptions import ValidationError
@@ -23,22 +22,29 @@ router = APIRouter(prefix="/api/images", tags=["images"])
 
 @router.get("/{width}x{height}", response_class=Response)
 async def generate_and_serve_image(
-    width: int, height: int, format: str = "png",
-    text: str = None, identifier: str = None,
-    use_case = Depends(get_generate_image_use_case),
-    storage = Depends(get_image_storage),
+    width: int,
+    height: int,
+    format: str = "png",
+    text: str = None,
+    identifier: str = None,
+    use_case=Depends(get_generate_image_use_case),
+    storage=Depends(get_image_storage),
 ):
     """Generate or serve cached image by dimensions."""
     try:
         spec = ImageSpec(
             dimensions=ImageDimensions(width, height),
             format=ImageFormat(format),
-            text_overlay=text, identifier=identifier,
+            text_overlay=text,
+            identifier=identifier,
         )
         metadata = await use_case.execute(spec)
         image_data = await storage.load_image(metadata.file_path)
-        return Response(content=image_data, media_type=f"image/{format}",
-                       headers={"Cache-Control": "public, max-age=86400"})
+        return Response(
+            content=image_data,
+            media_type=f"image/{format}",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
     except (ValueError, ValidationError) as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -46,7 +52,7 @@ async def generate_and_serve_image(
 @router.post("/generate", response_model=ImageMetadataResponseDTO)
 async def generate_image_metadata(
     request: GenerateImageRequestDTO,
-    use_case = Depends(get_generate_image_use_case),
+    use_case=Depends(get_generate_image_use_case),
 ):
     """Generate image and return metadata (not binary)."""
     try:
@@ -73,7 +79,7 @@ async def generate_image_metadata(
 
 @router.get("/responsive/{preset}", response_model=ResponsiveSetDTO)
 async def get_responsive_set(
-    preset: str, use_case = Depends(get_responsive_set_use_case)
+    preset: str, use_case=Depends(get_responsive_set_use_case)
 ):
     """Get responsive image set URLs."""
     try:
@@ -85,16 +91,19 @@ async def get_responsive_set(
 @router.post("/upload", response_model=UploadImageResponseDTO)
 async def upload_user_image(
     file: UploadFile = File(...),
-    use_case = Depends(get_upload_user_image_use_case),
+    use_case=Depends(get_upload_user_image_use_case),
 ):
     """Upload user-provided image."""
     try:
         content = await file.read()
         metadata = await use_case.execute(content, file.filename)
         return UploadImageResponseDTO(
-            image_id=metadata.image_id, url=metadata.get_url(),
-            dimensions={"width": metadata.dimensions.width,
-                       "height": metadata.dimensions.height},
+            image_id=metadata.image_id,
+            url=metadata.get_url(),
+            dimensions={
+                "width": metadata.dimensions.width,
+                "height": metadata.dimensions.height,
+            },
         )
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))

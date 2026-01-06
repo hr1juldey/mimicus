@@ -60,9 +60,7 @@ class OpenAPIImporter:
                 if not isinstance(operation, dict):
                     continue
 
-                mock = self._create_mock_from_operation(
-                    path, method.upper(), operation
-                )
+                mock = self._create_mock_from_operation(path, method.upper(), operation)
                 if mock:
                     mocks.append(mock)
 

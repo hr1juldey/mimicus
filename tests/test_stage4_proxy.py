@@ -1,18 +1,12 @@
 """Tests for Stage 4 - Proxy mode functionality."""
 
 import pytest
-import json
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, patch
 from fastapi.testclient import TestClient
 from src.core.app import create_app
 from src.core.dependencies import get_mock_repository
-from src.domain.entities.mock_definition import (
-    MockDefinition,
-    MatchCriteria,
-    ResponseConfig,
-)
 from src.domain.services.mock_factory import MockFactory
-from src.infrastructure.external.http_client import ProxyResponse, HTTPClient
+from src.infrastructure.external.http_client import ProxyResponse
 
 
 @pytest.fixture
@@ -31,6 +25,7 @@ def client(app):
 def clear_mocks():
     """Clear all mocks before each test."""
     import asyncio
+
     repo = get_mock_repository()
 
     # Clear before test
@@ -62,6 +57,7 @@ class TestProxyMode:
     def test_proxy_mode_requires_upstream(self, client):
         """Test that proxy mode requires upstream_url."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create proxy mock without upstream URL
@@ -78,6 +74,7 @@ class TestProxyMode:
     def test_proxy_mode_forwards_request(self, client):
         """Test that proxy mode forwards request to upstream."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create proxy mock
@@ -110,6 +107,7 @@ class TestProxyWithFallback:
     def test_fallback_on_upstream_failure(self, client):
         """Test that fallback mode uses mock when upstream fails."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create proxy-with-fallback mock
@@ -138,6 +136,7 @@ class TestProxyWithFallback:
     def test_fallback_uses_upstream_on_success(self, client):
         """Test that fallback uses upstream when it's available."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create proxy-with-fallback mock
@@ -172,6 +171,7 @@ class TestPassthroughMode:
     def test_passthrough_always_forwards(self, client):
         """Test that passthrough always forwards to upstream."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create passthrough mock
@@ -205,6 +205,7 @@ class TestMockModeFallback:
     def test_mock_mode_returns_static_response(self, client):
         """Test that standard mock mode still works."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create regular mock
@@ -247,6 +248,7 @@ class TestProxyConfiguration:
     def test_update_mock_to_proxy_mode(self, client):
         """Test updating mock to enable proxy mode."""
         import asyncio
+
         repo = get_mock_repository()
 
         # Create mock in mock mode

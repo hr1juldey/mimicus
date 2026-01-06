@@ -27,9 +27,7 @@ class UpdateMockUseCase:
         self.repository = repository
         self.mapper = mapper
 
-    async def execute(
-        self, mock_id: str, dto: UpdateMockDTO
-    ) -> MockDefinition:
+    async def execute(self, mock_id: str, dto: UpdateMockDTO) -> MockDefinition:
         """Update existing mock definition.
 
         Args:

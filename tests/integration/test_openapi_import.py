@@ -1,7 +1,6 @@
 """Integration tests for OpenAPI import endpoints."""
 
 import json
-import pytest
 from io import BytesIO
 from fastapi.testclient import TestClient
 from src.core.app import create_app
@@ -65,7 +64,7 @@ class TestOpenAPIImport:
                     "put": {"responses": {"200": {"description": "Update"}}},
                     "delete": {"responses": {"204": {"description": "Delete"}}},
                 },
-            }
+            },
         }
 
         spec_bytes = json.dumps(spec).encode()
@@ -207,9 +206,7 @@ class TestOpenAPIImport:
         """Test that response includes spec file path."""
         spec = {
             "openapi": "3.0.0",
-            "paths": {
-                "/test": {"get": {"responses": {"200": {"description": "OK"}}}}
-            },
+            "paths": {"/test": {"get": {"responses": {"200": {"description": "OK"}}}}},
         }
 
         spec_bytes = json.dumps(spec).encode()

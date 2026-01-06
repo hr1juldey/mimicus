@@ -1,6 +1,5 @@
 """Unit tests for password hasher."""
 
-import pytest
 from src.infrastructure.security import PasswordHasher
 
 

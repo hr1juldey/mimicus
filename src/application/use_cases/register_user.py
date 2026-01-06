@@ -31,9 +31,7 @@ class RegisterUserUseCase:
         """
         self.user_repository = user_repository
 
-    async def execute(
-        self, username: str, email: str, password: str
-    ) -> dict[str, str]:
+    async def execute(self, username: str, email: str, password: str) -> dict[str, str]:
         """Register new user.
 
         Args:

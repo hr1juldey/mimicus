@@ -51,9 +51,7 @@ class ImageGenerator:
                 pixels[x, y] = color1 if is_primary else color2
         return img
 
-    def _add_text_overlay(
-        self, img: Image.Image, spec: ImageSpec
-    ) -> Image.Image:
+    def _add_text_overlay(self, img: Image.Image, spec: ImageSpec) -> Image.Image:
         """Add text overlay to image."""
         draw = ImageDraw.Draw(img)
         text_parts = []
@@ -74,9 +72,7 @@ class ImageGenerator:
         )
         return img
 
-    def _image_to_bytes(
-        self, img: Image.Image, fmt: ImageFormat
-    ) -> bytes:
+    def _image_to_bytes(self, img: Image.Image, fmt: ImageFormat) -> bytes:
         """Convert PIL Image to bytes."""
         buffer = BytesIO()
         fmt_map = {
@@ -88,9 +84,7 @@ class ImageGenerator:
         buffer.seek(0)
         return buffer.getvalue()
 
-    def _random_color(
-        self, min_rgb: tuple, max_rgb: tuple
-    ) -> tuple:
+    def _random_color(self, min_rgb: tuple, max_rgb: tuple) -> tuple:
         """Generate random RGB color within specified ranges."""
         return (
             random.randint(min_rgb[0], max_rgb[0]),

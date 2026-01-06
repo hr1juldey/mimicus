@@ -31,9 +31,7 @@ class UploadUserImageUseCase:
         self.detector = detector
         self.repository = repository
 
-    async def execute(
-        self, image_data: bytes, original_filename: str
-    ) -> ImageMetadata:
+    async def execute(self, image_data: bytes, original_filename: str) -> ImageMetadata:
         """Upload and process user image.
 
         Args:

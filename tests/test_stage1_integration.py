@@ -155,7 +155,7 @@ class TestResponseGeneration:
                     "X-Custom-Header": "custom-value",
                     "X-Another-Header": "another-value",
                 },
-                response_body='{}',
+                response_body="{}",
             ),
         )
         await mock_repo.create(mock)

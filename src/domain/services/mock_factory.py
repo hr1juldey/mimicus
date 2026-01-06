@@ -18,8 +18,8 @@ class MockFactory:
         method: str = "GET",
         path: str = "/api/test",
         status: int = 200,
-        body: str = '{}',
-        **kwargs
+        body: str = "{}",
+        **kwargs,
     ) -> MockDefinition:
         """Create a basic mock with sensible defaults."""
         return MockDefinition(
@@ -51,7 +51,7 @@ class MockFactory:
         method: str = "POST",
         path: str = "/api/template",
         template_body: str = '{"data": "{{ request.json.data }}"}',
-        **kwargs
+        **kwargs,
     ) -> MockDefinition:
         """Create a mock with template response."""
         return MockFactory.create_basic(
@@ -60,7 +60,7 @@ class MockFactory:
             path=path,
             body=template_body,
             is_template=True,
-            **kwargs
+            **kwargs,
         )
 
     @staticmethod
@@ -68,7 +68,7 @@ class MockFactory:
         name: str = "Proxy Mock",
         path: str = "/api/proxy",
         upstream_url: str = "https://example.com",
-        **kwargs
+        **kwargs,
     ) -> MockDefinition:
         """Create a mock configured for proxy mode."""
         mock_mode = kwargs.pop("mock_mode", "proxy")
@@ -80,7 +80,7 @@ class MockFactory:
             body=body,
             mock_mode=mock_mode,
             upstream_url=upstream_url,
-            **kwargs
+            **kwargs,
         )
 
     @staticmethod
@@ -89,7 +89,7 @@ class MockFactory:
         method: str = "GET",
         path: str = "/api/error",
         status: int = 500,
-        **kwargs
+        **kwargs,
     ) -> MockDefinition:
         """Create a mock that returns an error response."""
         return MockFactory.create_basic(
@@ -98,7 +98,7 @@ class MockFactory:
             path=path,
             status=status,
             body=f'{{"error": "Internal Server Error", "code": {status}}}',
-            **kwargs
+            **kwargs,
         )
 
     @staticmethod

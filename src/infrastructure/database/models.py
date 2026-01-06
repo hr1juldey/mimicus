@@ -36,3 +36,29 @@ class MockDefinitionModel(SQLModel, table=True):
         """Pydantic config."""
 
         validate_assignment = True
+
+
+class RequestLogModel(SQLModel, table=True):
+    """Database model for storing request logs."""
+
+    __tablename__ = "request_logs"
+
+    log_id: str = Field(primary_key=True)
+    request_method: str
+    request_path: str
+    request_headers_json: str  # Store headers as JSON string
+    request_body: Optional[str] = None
+    matched_mock_id: Optional[str] = None
+    template_context_json: Optional[str] = None  # Store context as JSON string
+    response_status: int
+    response_body: Optional[str] = None
+    client_ip: Optional[str] = None
+    session_id: Optional[str] = None
+
+    # Audit fields
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        """Pydantic config."""
+
+        validate_assignment = True

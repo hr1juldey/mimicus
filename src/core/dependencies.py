@@ -5,11 +5,16 @@ from src.domain.repositories.mock_repository import (
     MockRepository,
     InMemoryMockRepository,
 )
+from src.domain.repositories.request_log_repository import (
+    RequestLogRepository,
+    InMemoryRequestLogRepository,
+)
 from src.domain.services.matching_service import MatchingService
 from src.domain.services.response_service import ResponseService
 from src.domain.services.template_service import TemplateService
 from src.domain.services.mock_factory import MockFactory
 from src.domain.services.rate_limiter_service import RateLimiterService
+from src.domain.services.request_log_service import RequestLogService
 from src.application.mappers.mock_mapper import MockMapper
 from src.application.use_cases import (
     CreateMockUseCase,
@@ -67,21 +72,37 @@ __all__ = [
     "get_import_openapi_use_case",
     "get_state_repository",
     "get_state_service",
+    "get_request_log_repository",
+    "get_request_log_service",
 ]
 
 
 # Global singleton instances
 _mock_repository: MockRepository = InMemoryMockRepository()
 _state_repository: StateRepository = InMemoryStateRepository()
+_request_log_repository: RequestLogRepository = InMemoryRequestLogRepository()
 _matching_service: MatchingService = MatchingService()
 _rate_limiter: RateLimiterService = RateLimiterService()
 _state_service: StateService = StateService(repository=_state_repository)
 _template_service: TemplateService = TemplateService(state_service=_state_service)
+_request_log_service: RequestLogService = RequestLogService(
+    repository=_request_log_repository
+)
 _response_service: ResponseService = ResponseService(
     template_service=_template_service, rate_limiter=_rate_limiter
 )
 _mock_mapper: MockMapper = MockMapper()
 _mock_factory: MockFactory = MockFactory()
+
+
+def get_request_log_repository() -> RequestLogRepository:
+    """Dependency: Get request log repository instance."""
+    return _request_log_repository
+
+
+def get_request_log_service() -> RequestLogService:
+    """Dependency: Get request log service instance."""
+    return _request_log_service
 
 
 def get_settings_dep() -> Settings:

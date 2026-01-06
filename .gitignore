@@ -12,3 +12,6 @@ wheels/
 .qwen
 .ce
 .claude
+
+src/adminui/node_modules/
+.next/

@@ -16,9 +16,7 @@ class AuthenticateUserUseCase:
     - Raise InvalidCredentialsError on failure
     """
 
-    def __init__(
-        self, user_repository: UserRepository, jwt_service: JWTService
-    ):
+    def __init__(self, user_repository: UserRepository, jwt_service: JWTService):
         """Initialize use case with dependencies.
 
         Args:
@@ -28,9 +26,7 @@ class AuthenticateUserUseCase:
         self.user_repository = user_repository
         self.jwt_service = jwt_service
 
-    async def execute(
-        self, username: str, password: str
-    ) -> dict[str, str | int]:
+    async def execute(self, username: str, password: str) -> dict[str, str | int]:
         """Authenticate user and generate tokens.
 
         Args:

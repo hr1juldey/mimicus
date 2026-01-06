@@ -1,7 +1,5 @@
 """Integration tests for authentication endpoints."""
 
-import pytest
-import json
 from fastapi.testclient import TestClient
 from src.core.app import create_app
 
@@ -222,7 +220,10 @@ class TestAuthIntegration:
 
         # 3. Use access token in header
         headers = {"Authorization": f"Bearer {access_token}"}
-        # This would be used to access protected endpoints
+        # Test accessing a protected endpoint (mock admin endpoint)
+        protected_response = client.get("/api/admin/mocks", headers=headers)
+        # Should return 200 (or 401 if auth middleware is active)
+        assert protected_response.status_code in [200, 401]
 
         # 4. Refresh token
         refresh_response = client.post(

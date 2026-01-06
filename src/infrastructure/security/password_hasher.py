@@ -2,7 +2,6 @@
 
 import hashlib
 import os
-from typing import Tuple
 
 
 class PasswordHasher:
@@ -20,9 +19,7 @@ class PasswordHasher:
         """
         salt = os.urandom(32)
         # Use PBKDF2 with 100,000 iterations
-        hashed = hashlib.pbkdf2_hmac(
-            "sha256", password.encode(), salt, 100000
-        )
+        hashed = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
         # Return salt + hash as hex string
         return f"pbkdf2$100000${salt.hex()}${hashed.hex()}"
 

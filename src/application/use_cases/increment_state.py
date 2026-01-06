@@ -18,6 +18,4 @@ class IncrementStateUseCase:
         delta: int = 1,
     ) -> int:
         """Increment counter and return new value."""
-        return await self.state_service.increment_counter(
-            state_key, session_id, delta
-        )
+        return await self.state_service.increment_counter(state_key, session_id, delta)

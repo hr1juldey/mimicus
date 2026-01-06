@@ -7,11 +7,13 @@ from src.core.dependencies import (
     get_mock_repository,
     get_matching_service,
     get_response_service,
+    get_request_log_service,
 )
 from src.domain.repositories.mock_repository import MockRepository
 from src.domain.services.matching_service import MatchingService
 from src.domain.services.response_service import ResponseService
 from src.domain.services.proxy_service import ProxyService
+from src.domain.services.request_log_service import RequestLogService
 from src.infrastructure.external.http_client import HTTPClient
 from src.domain.entities.request_context import RequestContext
 
@@ -76,6 +78,7 @@ async def handle_mock_request(
     mock_repository: MockRepository = Depends(get_mock_repository),
     matching_service: MatchingService = Depends(get_matching_service),
     response_service: ResponseService = Depends(get_response_service),
+    request_log_service: RequestLogService = Depends(get_request_log_service),
 ) -> FastAPIResponse:
     """Handle incoming requests and match to mocks."""
     # Build request context
@@ -89,14 +92,24 @@ async def handle_mock_request(
 
     if not match_result:
         # No match found - return 404
+        response_content = json.dumps(
+            {
+                "error": "No matching mock found",
+                "path": request_context.request_path,
+                "method": request_context.request_method,
+            }
+        )
+
+        # Log the request even when no match is found
+        await request_log_service.log_request(
+            request_context=request_context,
+            matched_mock_id=None,
+            response_status=404,
+            response_body=response_content,
+        )
+
         return FastAPIResponse(
-            content=json.dumps(
-                {
-                    "error": "No matching mock found",
-                    "path": request_context.request_path,
-                    "method": request_context.request_method,
-                }
-            ),
+            content=response_content,
             status_code=404,
             media_type="application/json",
         )
@@ -119,5 +132,13 @@ async def handle_mock_request(
         response = await response_service.generate_response(
             matched_mock, request_context
         )
+
+    # Log the request with the matched mock ID and response details
+    await request_log_service.log_request(
+        request_context=request_context,
+        matched_mock_id=matched_mock.mock_id,
+        response_status=response.status_code,
+        response_body=response.body.decode() if response.body else None,
+    )
 
     return response

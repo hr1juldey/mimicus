@@ -8,9 +8,7 @@ from src.domain.entities.image_spec import ImageDimensions, ImageFormat
 class DimensionDetector:
     """Detect dimensions and format from image binary data."""
 
-    async def detect(
-        self, image_data: bytes
-    ) -> tuple[ImageDimensions, ImageFormat]:
+    async def detect(self, image_data: bytes) -> tuple[ImageDimensions, ImageFormat]:
         """Detect dimensions and format from image bytes.
 
         Args:

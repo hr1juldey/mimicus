@@ -9,16 +9,12 @@ class ImageRepository(ABC):
     """Abstract repository for image metadata operations."""
 
     @abstractmethod
-    async def save_metadata(
-        self, metadata: ImageMetadata
-    ) -> ImageMetadata:
+    async def save_metadata(self, metadata: ImageMetadata) -> ImageMetadata:
         """Save or update image metadata."""
         pass
 
     @abstractmethod
-    async def get_by_id(
-        self, image_id: str
-    ) -> Optional[ImageMetadata]:
+    async def get_by_id(self, image_id: str) -> Optional[ImageMetadata]:
         """Retrieve image metadata by ID."""
         pass
 
@@ -47,16 +43,12 @@ class InMemoryImageRepository(ImageRepository):
         """Initialize empty store."""
         self._store: dict[str, ImageMetadata] = {}
 
-    async def save_metadata(
-        self, metadata: ImageMetadata
-    ) -> ImageMetadata:
+    async def save_metadata(self, metadata: ImageMetadata) -> ImageMetadata:
         """Save image metadata to memory."""
         self._store[metadata.image_id] = metadata
         return metadata
 
-    async def get_by_id(
-        self, image_id: str
-    ) -> Optional[ImageMetadata]:
+    async def get_by_id(self, image_id: str) -> Optional[ImageMetadata]:
         """Get metadata by ID."""
         return self._store.get(image_id)
 

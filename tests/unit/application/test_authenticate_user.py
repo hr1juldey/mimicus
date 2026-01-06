@@ -5,7 +5,6 @@ from src.application.use_cases.authenticate_user import AuthenticateUserUseCase
 from src.application.auth_exceptions import InvalidCredentialsError
 from src.domain.repositories.user_repository import InMemoryUserRepository
 from src.domain.services.jwt_service import JWTService
-from src.infrastructure.security import PasswordHasher
 
 
 @pytest.fixture

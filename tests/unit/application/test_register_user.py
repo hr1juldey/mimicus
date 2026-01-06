@@ -80,6 +80,9 @@ class TestRegisterUserUseCase:
         register_result = await use_case.execute(
             "logintest", "user@example.com", "mypassword"
         )
+        # Verify registration was successful
+        assert "user_id" in register_result
+        assert "api_key" in register_result
 
         # Try to login
         from src.domain.services.jwt_service import JWTService

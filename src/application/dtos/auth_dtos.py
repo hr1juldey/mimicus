@@ -1,7 +1,7 @@
 """Data Transfer Objects for authentication."""
 
-from typing import List, Optional
-from pydantic import BaseModel, Field, EmailStr
+from typing import List
+from pydantic import BaseModel, Field
 
 
 class LoginRequest(BaseModel):

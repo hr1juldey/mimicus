@@ -29,9 +29,7 @@ class ResponseConfigDTO(BaseModel):
     is_template: bool = Field(
         default=False, description="Whether body is Jinja2 template"
     )
-    error_rate: int = Field(
-        default=0, description="Error rate percentage (0-100)"
-    )
+    error_rate: int = Field(default=0, description="Error rate percentage (0-100)")
     error_status_code: int = Field(default=500, description="Status code for errors")
     error_body: str = Field(default="", description="Error response body")
 

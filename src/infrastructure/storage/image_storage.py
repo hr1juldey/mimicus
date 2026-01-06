@@ -10,9 +10,7 @@ from src.domain.entities.image_spec import ImageFormat
 class ImageStorage:
     """Service for storing and retrieving image files."""
 
-    def __init__(
-        self, file_storage: FileStorage, base_dir: str = "images"
-    ) -> None:
+    def __init__(self, file_storage: FileStorage, base_dir: str = "images") -> None:
         """Initialize image storage."""
         self.file_storage = file_storage
         self.base_dir = base_dir

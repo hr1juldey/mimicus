@@ -43,9 +43,7 @@ class GetResponsiveSetUseCase:
         ],
     }
 
-    def __init__(
-        self, generate_use_case: GenerateImageUseCase
-    ) -> None:
+    def __init__(self, generate_use_case: GenerateImageUseCase) -> None:
         """Initialize use case with dependency."""
         self.generate_use_case = generate_use_case
 
@@ -72,9 +70,7 @@ class GetResponsiveSetUseCase:
             raise ValidationError(f"Invalid preset. Choose from: {valid}")
 
         # Get dimension list from preset
-        dimensions_list: List[Tuple[int, int]] = (
-            self.DEVICE_PRESETS[preset]
-        )
+        dimensions_list: List[Tuple[int, int]] = self.DEVICE_PRESETS[preset]
 
         # Generate all variants
         image_refs = []

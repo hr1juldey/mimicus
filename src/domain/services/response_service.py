@@ -22,9 +22,7 @@ class ResponseService:
         self.rate_limiter = rate_limiter
 
     @staticmethod
-    def _prepare_body(
-        body: Union[str, Dict, Any], is_template: bool = False
-    ) -> str:
+    def _prepare_body(body: Union[str, Dict, Any], is_template: bool = False) -> str:
         """Prepare response body as string."""
         if isinstance(body, dict):
             return json.dumps(body)

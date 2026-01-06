@@ -63,7 +63,7 @@ class TestOpenAPIImporter:
                     "put": {"responses": {"200": {"description": "Updated"}}},
                     "delete": {"responses": {"204": {"description": "Deleted"}}},
                 },
-            }
+            },
         }
 
         spec_str = json.dumps(spec)

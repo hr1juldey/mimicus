@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff; /* White */
+    --foreground: #000000; /* Black */
+
+    --muted: #f0f0f0; /* Light gray */
+    --muted-foreground: #666666; /* Gray */
+
+    --popover: #ffffff; /* White */
+    --popover-foreground: #000000; /* Black */
+
+    --border: #dddddd; /* Light gray */
+    --input: #dddddd; /* Light gray */
+
+    --card: #ffffff; /* White */
+    --card-foreground: #000000; /* Black */
+
+    --primary: #000000; /* Black */
+    --primary-foreground: #ffffff; /* White */
+
+    --secondary: #f0f0f0; /* Light gray */
+    --secondary-foreground: #000000; /* Black */
+
+    --accent: #f8f8f8; /* Very light gray */
+    --accent-foreground: #000000; /* Black */
+
+    --destructive: #dc2626; /* Red */
+    --destructive-foreground: #ffffff; /* White */
+
+    --ring: #000000; /* Black */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: #000000; /* Black */
+    --foreground: #ffffff; /* White */
+
+    --muted: #2a2a2a; /* Dark gray */
+    --muted-foreground: #999999; /* Medium gray */
+
+    --popover: #000000; /* Black */
+    --popover-foreground: #ffffff; /* White */
+
+    --border: #444444; /* Gray */
+    --input: #444444; /* Gray */
+
+    --card: #000000; /* Black */
+    --card-foreground: #ffffff; /* White */
+
+    --primary: #ffffff; /* White */
+    --primary-foreground: #000000; /* Black */
+
+    --secondary: #2a2a2a; /* Dark gray */
+    --secondary-foreground: #ffffff; /* White */
+
+    --accent: #222222; /* Darker gray */
+    --accent-foreground: #ffffff; /* White */
+
+    --destructive: #dc2626; /* Red */
+    --destructive-foreground: #ffffff; /* White */
+
+    --ring: #ffffff; /* White */
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}

@@ -38,6 +38,7 @@ def create_app() -> FastAPI:
     async def shutdown():
         """Close database on shutdown."""
         from src.infrastructure.database.connection import get_database
+
         db = get_database()
         if db:
             await db.close()
@@ -53,8 +54,10 @@ def create_app() -> FastAPI:
     app.include_router(state_api.router)
 
     # Register admin API BEFORE catch-all mock handler
-    from src.presentation.api.v1 import admin
+    from src.presentation.api.v1 import admin, inspector_api
+
     app.include_router(admin.router)
+    app.include_router(inspector_api.router)
 
     # Register catch-all mock handler last (matches any unhandled path)
     app.include_router(mocks.router)

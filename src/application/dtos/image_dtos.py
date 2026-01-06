@@ -18,9 +18,7 @@ class GenerateImageRequestDTO(BaseModel):
 
     width: int = Field(..., gt=0, le=8000)
     height: int = Field(..., gt=0, le=8000)
-    format: str = Field(
-        default="png", pattern="^(png|jpeg|webp)$"
-    )
+    format: str = Field(default="png", pattern="^(png|jpeg|webp)$")
     text_overlay: Optional[str] = Field(None, max_length=200)
     identifier: Optional[str] = Field(None, max_length=100)
 

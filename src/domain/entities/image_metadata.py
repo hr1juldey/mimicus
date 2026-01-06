@@ -19,14 +19,9 @@ class ImageMetadata:
     is_user_provided: bool
     checksum: str
 
-    def is_same_dimensions(
-        self, width: int, height: int
-    ) -> bool:
+    def is_same_dimensions(self, width: int, height: int) -> bool:
         """Check if dimensions match."""
-        return (
-            self.dimensions.width == width
-            and self.dimensions.height == height
-        )
+        return self.dimensions.width == width and self.dimensions.height == height
 
     def get_url(self, base_url: str = "/api/images") -> str:
         """Generate URL for this image."""

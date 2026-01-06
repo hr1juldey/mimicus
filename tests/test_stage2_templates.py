@@ -1,7 +1,6 @@
 """Tests for Stage 2 - Template engine functionality."""
 
 import pytest
-import asyncio
 from fastapi.testclient import TestClient
 from src.core.app import create_app
 from src.core.dependencies import get_mock_repository, get_template_service
@@ -11,7 +10,6 @@ from src.domain.entities.mock_definition import (
     ResponseConfig,
 )
 from src.domain.entities.request_context import RequestContext
-from src.domain.services.template_service import TemplateService
 
 
 @pytest.fixture
@@ -45,7 +43,9 @@ class TestTemplateService:
         assert not template_service.is_template("")
 
     @pytest.mark.asyncio
-    async def test_simple_variable_interpolation(self, template_service, request_context):
+    async def test_simple_variable_interpolation(
+        self, template_service, request_context
+    ):
         """Test simple variable interpolation."""
         template = '{"username": "{{ request.json.username }}"}'
         rendered = await template_service.render_template(template, request_context)
@@ -123,7 +123,7 @@ class TestTemplateService:
     async def test_template_error_handling(self, template_service, request_context):
         """Test error handling in template rendering."""
         # Invalid template syntax
-        template = '{{ undefined_var | nonexistent_filter }}'
+        template = "{{ undefined_var | nonexistent_filter }}"
         rendered = await template_service.render_template(template, request_context)
         # Should contain error message
         assert "error" in rendered.lower()
@@ -136,7 +136,7 @@ class TestTemplateService:
             request_path="/",
             request_json={"key": "value"},
         )
-        template = '{{ json_dumps(request.json) }}'
+        template = "{{ json_dumps(request.json) }}"
         rendered = await template_service.render_template(template, ctx)
         assert "key" in rendered
         assert "value" in rendered

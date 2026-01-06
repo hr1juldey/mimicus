@@ -70,6 +70,4 @@ def get_upload_user_image_use_case() -> UploadUserImageUseCase:
 
 def get_responsive_set_use_case() -> GetResponsiveSetUseCase:
     """Dependency: Get GetResponsiveSetUseCase."""
-    return GetResponsiveSetUseCase(
-        generate_use_case=get_generate_image_use_case()
-    )
+    return GetResponsiveSetUseCase(generate_use_case=get_generate_image_use_case())

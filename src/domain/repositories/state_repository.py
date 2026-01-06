@@ -28,9 +28,7 @@ class StateRepository(ABC):
         pass
 
     @abstractmethod
-    async def delete(
-        self, state_key: str, session_id: Optional[str] = None
-    ) -> bool:
+    async def delete(self, state_key: str, session_id: Optional[str] = None) -> bool:
         """Delete state, return True if deleted."""
         pass
 
@@ -85,9 +83,7 @@ class InMemoryStateRepository(StateRepository):
         self._store[session_id][state_key] = str(new_val)
         return new_val
 
-    async def delete(
-        self, state_key: str, session_id: Optional[str] = None
-    ) -> bool:
+    async def delete(self, state_key: str, session_id: Optional[str] = None) -> bool:
         """Delete from memory."""
         session_id = session_id or "default"
         if session_id in self._store and state_key in self._store[session_id]:

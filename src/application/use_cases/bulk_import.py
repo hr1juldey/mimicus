@@ -66,9 +66,7 @@ class BulkImportUseCase:
                 created_mock = await self.repository.create(mock)
                 created.append(created_mock)
             except Exception as e:
-                errors.append(
-                    {"index": idx, "error": str(e), "data": mock_data}
-                )
+                errors.append({"index": idx, "error": str(e), "data": mock_data})
 
         return {
             "created": len(created),

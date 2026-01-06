@@ -23,6 +23,7 @@ def client(app):
 def clear_mocks():
     """Clear all mocks before each test."""
     import asyncio
+
     repo = get_mock_repository()
 
     # Clear before test
@@ -167,7 +168,7 @@ class TestUpdateMock:
             "mock_name": "Original",
             "match_method": "GET",
             "match_path": "/api/update",
-            "response_body": '{}',
+            "response_body": "{}",
         }
         create_response = client.post("/api/admin/mocks", json=payload)
         mock_id = create_response.json()["mock_id"]
@@ -216,7 +217,7 @@ class TestDeleteMock:
             "mock_name": "Delete Me",
             "match_method": "GET",
             "match_path": "/api/delete",
-            "response_body": '{}',
+            "response_body": "{}",
         }
         create_response = client.post("/api/admin/mocks", json=payload)
         mock_id = create_response.json()["mock_id"]
@@ -245,7 +246,7 @@ class TestToggleMock:
             "mock_name": "Toggle Test",
             "match_method": "GET",
             "match_path": "/api/toggle",
-            "response_body": '{}',
+            "response_body": "{}",
             "mock_enabled": True,
         }
         create_response = client.post("/api/admin/mocks", json=payload)
@@ -310,7 +311,7 @@ class TestBulkImport:
                     "mock_name": "Valid Mock",
                     "match_method": "GET",
                     "match_path": "/api/valid",
-                    "response_body": '{}',
+                    "response_body": "{}",
                 },
                 {
                     "invalid_field": "This mock is missing required fields",
