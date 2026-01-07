@@ -12,6 +12,7 @@ wheels/
 .qwen
 .ce
 .claude
-
+.gz
 src/adminui/node_modules/
-.next/
+src/adminui/.next
+src/adminui/.next/cache/webpack/client-development/
