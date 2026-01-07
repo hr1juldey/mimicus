@@ -7,6 +7,10 @@
     "compounding-engineering": {
       "type": "http",
       "url": "http://localhost:12001/mcp"
+    },
+    "searxng": {
+      "type": "http",
+      "url": "http://localhost:8082/mcp"
     }
   }
 }
