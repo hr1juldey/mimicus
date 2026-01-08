@@ -71,6 +71,7 @@ async def build_request_context(request: Request) -> RequestContext:
 @router.api_route(
     "/{full_path:path}",
     methods=["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
+    include_in_schema=False,  # This prevents the schema generation issues
 )
 async def handle_mock_request(
     request: Request,

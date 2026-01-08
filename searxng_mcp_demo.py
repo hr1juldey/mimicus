@@ -5,7 +5,6 @@ Demo MCP server that interfaces with SearXNG search engine.
 This demonstrates how to create an MCP server that can be integrated with the trio.
 """
 
-import json
 from typing import Dict, Any
 import aiohttp
 from fastmcp import FastMCP
@@ -45,10 +44,7 @@ async def search_web(query: str, format_type: str = "json") -> Dict[str, Any]:
             return {"error": str(e), "status": "failed"}
 
 
-@mcp.tool(
-    name="search",
-    description="Search the web using SearXNG metasearch engine"
-)
+@mcp.tool(name="search", description="Search the web using SearXNG metasearch engine")
 async def search_tool(query: str, format_type: str = "json") -> Dict[str, Any]:
     return await search_web(query, format_type)
 
