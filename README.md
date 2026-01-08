@@ -1,4 +1,8 @@
-# 🎭 Mimicus
+<div align="center">
+  <img src="assets/mimicus_1.svg" alt="Mimicus Logo" width="128" height="128">
+</div>
+
+# Mimicus
 
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/hr1juldey/mimicus/releases)
 [![Python](https://img.shields.io/badge/python-3.12+-green.svg)](https://www.python.org/downloads/)
@@ -72,7 +76,7 @@ python main.py
 
 Your Mimicus server comes with a **default admin account** for immediate testing:
 
-```
+```bash
 📧 Username: admin
 🔑 Password: admin123
 ```
@@ -430,14 +434,16 @@ Current test coverage:
 
 ### ✅ Completed (Stages 1-7)
 
-**Stage 1-4: Core Features**
+#### **Stage 1-4: Core Features**
+
 - ✅ Core mock request matching and response generation
 - ✅ Jinja2 template support with request variables
 - ✅ Admin REST API for CRUD operations
 - ✅ Proxy modes with upstream fallback
 - ✅ Comprehensive test coverage (50+ tests)
 
-**Stage 5: Image Generation & Documentation**
+#### **Stage 5: Image Generation & Documentation**
+
 - ✅ Dynamic placeholder image generation (1-8000px)
 - ✅ Device presets (mobile, tablet, desktop)
 - ✅ User image upload with auto-dimension detection
@@ -449,7 +455,8 @@ Current test coverage:
 - ✅ Comprehensive API reference
 - ✅ React integration guide
 
-**Stage 7: JWT Authentication & API Keys**
+#### **Stage 7: JWT Authentication & API Keys**
+
 - ✅ User login with JWT tokens (access + refresh)
 - ✅ User registration with validation
 - ✅ Secure password hashing (PBKDF2-SHA256)
